@@ -108,6 +108,8 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg-main)}
   <button class="ps-btn" onclick="showPage('profile',this)">Perfil abogada</button>
   <button class="ps-btn" onclick="showPage('pricing',this)">Planes</button>
   <button class="ps-btn" onclick="showPage('blog',this)">Revista</button>
+  <button class="ps-btn" onclick="showPage('login',this)">Login</button>
+  <button class="ps-btn" onclick="showPage('dashboard',this)">Dashboard</button>
 </div>
 
 <!-- ═══════════════════ HOME ═══════════════════ -->
@@ -649,6 +651,149 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg-main)}
   </div>
 </div>
 
+<!-- ═══════════════════ LOGIN ═══════════════════ -->
+<div class="page" id="page-login">
+  <nav class="nav">
+    <div class="nav-logo" style="cursor:pointer" onclick="showPage('home',document.querySelectorAll('.ps-btn')[0])">LexConnect</div>
+    <div class="nav-links"><button class="nav-link" onclick="showPage('search',document.querySelectorAll('.ps-btn')[1])">Buscar abogado</button><button class="nav-link" onclick="showPage('blog',document.querySelectorAll('.ps-btn')[4])">Revista</button><button class="nav-link" onclick="showPage('pricing',document.querySelectorAll('.ps-btn')[3])">Planes</button></div>
+    <div class="nav-btns"><span style="font-size:13px;color:var(--text-mid)">¿No tienes cuenta?</span><button class="btn btn-primary btn-sm" onclick="setAuthMode('signup')">Crear cuenta</button></div>
+  </nav>
+
+  <div style="display:grid;grid-template-columns:1.1fr 1fr;min-height:calc(100vh - 56px - 41px)">
+    <!-- Left value-prop -->
+    <div style="background:linear-gradient(160deg,var(--blue-grey-pale) 0%,var(--blue-grey) 100%);padding:64px 56px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+      <div style="position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:var(--white);opacity:.3"></div>
+      <div style="position:absolute;left:30%;bottom:30px;width:90px;height:90px;border-radius:50%;background:var(--terra);opacity:.18"></div>
+
+      <div style="position:relative;z-index:1">
+        <div class="overline" style="color:var(--deep);opacity:.55;margin-bottom:14px">Bienvenido de vuelta</div>
+        <h1 class="serif" style="font-size:38px;line-height:1.1;color:var(--deep);font-weight:400;margin-bottom:18px">Tu práctica legal,<br><em>en un solo lugar.</em></h1>
+        <p style="font-size:14px;color:rgba(28,46,69,.65);line-height:1.7;max-width:380px">Accede a tu agenda, clientes, pagos y herramientas de IA — o encuentra al abogado ideal para tu caso.</p>
+      </div>
+
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div style="width:32px;height:32px;background:var(--white);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--sage-dark);font-size:14px;flex-shrink:0">✓</div>
+          <span style="font-size:13px;color:var(--deep)">500+ abogados verificados con idoneidad CNA</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div style="width:32px;height:32px;background:var(--white);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--terra-dark);font-size:14px;flex-shrink:0">★</div>
+          <span style="font-size:13px;color:var(--deep)">Calificación promedio 4.8 con 2,400+ reseñas reales</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div style="width:32px;height:32px;background:var(--white);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--lavender-dark);font-size:14px;flex-shrink:0">✦</div>
+          <span style="font-size:13px;color:var(--deep)">Herramientas de IA exclusivas para abogados Pro</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right form -->
+    <div style="background:var(--white);padding:64px 56px;display:flex;flex-direction:column;justify-content:center">
+      <div style="max-width:380px;width:100%;margin:0 auto">
+        <!-- Auth-mode tabs -->
+        <div style="display:flex;gap:0;border-bottom:1px solid var(--rule);margin-bottom:28px">
+          <button id="authTabLogin" class="auth-tab" onclick="setAuthMode('login')" style="padding:10px 18px;border:none;background:transparent;font-size:13px;cursor:pointer;color:var(--deep);font-family:inherit;font-weight:500;border-bottom:2px solid var(--deep);margin-bottom:-1px">Iniciar sesión</button>
+          <button id="authTabSignup" class="auth-tab" onclick="setAuthMode('signup')" style="padding:10px 18px;border:none;background:transparent;font-size:13px;cursor:pointer;color:var(--text-light);font-family:inherit;font-weight:400">Crear cuenta</button>
+        </div>
+
+        <h2 id="authHeading" class="serif" style="font-size:24px;color:var(--text-dark);font-weight:400;margin-bottom:8px">Inicia sesión en tu cuenta</h2>
+        <p id="authSub" style="font-size:13px;color:var(--text-mid);margin-bottom:24px">Bienvenido de vuelta — accede a tu dashboard.</p>
+
+        <!-- Role toggle -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg-card);padding:4px;border-radius:var(--radius-sm);margin-bottom:20px">
+          <button id="roleClient" onclick="setRole('client')" style="padding:10px;border:none;border-radius:5px;background:var(--white);color:var(--deep);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;box-shadow:0 1px 3px rgba(28,46,69,.08)">Soy cliente</button>
+          <button id="roleLawyer" onclick="setRole('lawyer')" style="padding:10px;border:none;border-radius:5px;background:transparent;color:var(--text-mid);font-size:13px;font-weight:400;cursor:pointer;font-family:inherit">Soy abogado</button>
+        </div>
+
+        <!-- Form -->
+        <form onsubmit="event.preventDefault();submitAuth()">
+          <div id="nameField" style="margin-bottom:14px;display:none">
+            <label style="display:block;font-size:12px;font-weight:500;color:var(--text-mid);margin-bottom:6px">Nombre completo</label>
+            <input id="inputName" placeholder="Dra. Valentina Herrera" style="width:100%;padding:10px 14px;border:1px solid var(--rule);border-radius:var(--radius-sm);font-size:13px;color:var(--text-dark);font-family:inherit;outline:none">
+          </div>
+          <div style="margin-bottom:14px">
+            <label style="display:block;font-size:12px;font-weight:500;color:var(--text-mid);margin-bottom:6px">Correo electrónico</label>
+            <input id="inputEmail" type="email" placeholder="tu@email.com" required style="width:100%;padding:10px 14px;border:1px solid var(--rule);border-radius:var(--radius-sm);font-size:13px;color:var(--text-dark);font-family:inherit;outline:none">
+          </div>
+          <div style="margin-bottom:8px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+              <label style="font-size:12px;font-weight:500;color:var(--text-mid)">Contraseña</label>
+              <a id="forgotLink" style="font-size:11px;color:var(--blue-grey-mid);cursor:pointer">¿Olvidaste tu contraseña?</a>
+            </div>
+            <input id="inputPw" type="password" placeholder="••••••••" required style="width:100%;padding:10px 14px;border:1px solid var(--rule);border-radius:var(--radius-sm);font-size:13px;color:var(--text-dark);font-family:inherit;outline:none">
+          </div>
+          <div id="idoneidadField" style="display:none;margin-top:10px;padding:10px 12px;background:var(--lavender-pale);border:1px solid rgba(201,197,232,.4);border-radius:var(--radius-sm)">
+            <div style="font-size:11px;color:var(--lavender-dark);font-weight:500;margin-bottom:4px">Verificación profesional</div>
+            <div style="font-size:11px;color:var(--text-mid);line-height:1.5">Validaremos tu idoneidad con el CNA al crear la cuenta.</div>
+          </div>
+          <button type="submit" id="submitBtn" class="btn btn-primary" style="width:100%;padding:12px;margin-top:18px;font-size:14px">Iniciar sesión →</button>
+        </form>
+
+        <div style="display:flex;align-items:center;gap:12px;margin:20px 0">
+          <div style="flex:1;height:1px;background:var(--rule)"></div>
+          <span style="font-size:11px;color:var(--text-light);letter-spacing:.05em">O CONTINÚA CON</span>
+          <div style="flex:1;height:1px;background:var(--rule)"></div>
+        </div>
+
+        <button onclick="submitAuth()" style="width:100%;padding:10px;border:1px solid var(--rule);background:var(--white);color:var(--text-dark);font-size:13px;font-weight:500;border-radius:var(--radius-sm);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:10px">
+          <svg width="16" height="16" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+          Google
+        </button>
+
+        <p style="font-size:11px;color:var(--text-light);text-align:center;margin-top:24px;line-height:1.6">Al continuar aceptas nuestros <a style="color:var(--blue-grey-mid);cursor:pointer">Términos</a> y <a style="color:var(--blue-grey-mid);cursor:pointer">Política de Privacidad (Ley 81)</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ DASHBOARD ═══════════════════ -->
+<div class="page" id="page-dashboard">
+  <nav class="nav">
+    <div class="nav-logo" style="cursor:pointer" onclick="showPage('home',document.querySelectorAll('.ps-btn')[0])">LexConnect</div>
+    <div class="nav-links">
+      <span id="dashRoleChip" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:var(--blue-grey-pale);color:var(--deep);border-radius:var(--radius-sm);font-size:12px;font-weight:500">Cliente</span>
+      <button class="nav-link" onclick="toggleDashRole()">Cambiar vista</button>
+    </div>
+    <div class="nav-btns">
+      <div style="display:flex;align-items:center;gap:10px">
+        <img id="dashAvatar" src="https://i.pravatar.cc/40?img=11" class="avatar" style="width:32px;height:32px;border:2px solid var(--rule)" alt="">
+        <div style="display:flex;flex-direction:column;line-height:1.2">
+          <span id="dashName" style="font-size:13px;font-weight:500;color:var(--text-dark)">Carlos M.</span>
+          <span id="dashEmail" style="font-size:11px;color:var(--text-light)">carlos@email.com</span>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="logout()" style="margin-left:8px">Salir</button>
+      </div>
+    </div>
+  </nav>
+
+  <div style="display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 56px - 41px)">
+    <!-- Sidebar -->
+    <aside style="background:var(--white);border-right:1px solid var(--rule);padding:24px 16px">
+      <div class="section-label" style="margin-bottom:10px;padding:0 6px">Menú</div>
+      <nav id="dashSidebar" style="display:flex;flex-direction:column;gap:2px"></nav>
+
+      <div style="margin-top:32px;padding:16px;background:var(--lavender-pale);border:1px solid rgba(201,197,232,.4);border-radius:var(--radius)" id="dashUpsell">
+        <div style="font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--lavender-dark);margin-bottom:6px">✦ AI Pro</div>
+        <div style="font-size:12px;color:var(--text-dark);font-weight:500;margin-bottom:4px">Desbloquea Draft Assistant</div>
+        <div style="font-size:11px;color:var(--text-mid);line-height:1.5;margin-bottom:10px">Genera borradores de contratos y memos con IA entrenada en derecho panameño.</div>
+        <button class="btn btn-primary btn-sm" style="width:100%;font-size:11px;padding:7px" onclick="showPage('pricing',document.querySelectorAll('.ps-btn')[3])">Probar AI Pro</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main style="padding:28px 32px;background:var(--bg-main);overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px">
+        <div>
+          <h1 id="dashGreeting" class="serif" style="font-size:28px;color:var(--text-dark);font-weight:400;margin-bottom:4px">Hola, Carlos</h1>
+          <p id="dashSubtitle" style="font-size:13px;color:var(--text-mid)">Esto es lo que pasa con tus consultas hoy.</p>
+        </div>
+        <button id="dashCta" class="btn btn-primary" onclick="dashCtaAction()">+ Nueva consulta</button>
+      </div>
+      <div id="dashContent"></div>
+    </main>
+  </div>
+</div>
+
 <script>
 const lawyers=[
   {name:"Dra. Valentina Herrera Ríos",img:"https://i.pravatar.cc/80?img=47",id:"2847-A",city:"Ciudad de Panamá",exp:12,type:"Independiente",specs:["Corporativo","Contratos","M&A"],rating:4.9,reviews:87,price:120,ai:true},
@@ -707,7 +852,275 @@ function showPage(id,btn){
   document.querySelectorAll('.ps-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   if(id==='search')filterResults('');
+  if(id==='dashboard')renderDashboard();
+  if(id==='login')syncAuthUI();
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── Auth state (fake / localStorage) ── */
+function getSession(){try{return JSON.parse(localStorage.getItem('lex_session')||'null')}catch(e){return null}}
+function setSession(s){localStorage.setItem('lex_session',JSON.stringify(s))}
+function clearSession(){localStorage.removeItem('lex_session')}
+
+let authMode='login',authRole='client';
+function setAuthMode(m){
+  authMode=m;
+  const isSignup=m==='signup';
+  document.getElementById('authTabLogin').style.cssText='padding:10px 18px;border:none;background:transparent;font-size:13px;cursor:pointer;color:'+(isSignup?'var(--text-light)':'var(--deep)')+';font-family:inherit;font-weight:'+(isSignup?'400':'500')+';'+(isSignup?'':'border-bottom:2px solid var(--deep);margin-bottom:-1px');
+  document.getElementById('authTabSignup').style.cssText='padding:10px 18px;border:none;background:transparent;font-size:13px;cursor:pointer;color:'+(isSignup?'var(--deep)':'var(--text-light)')+';font-family:inherit;font-weight:'+(isSignup?'500':'400')+';'+(isSignup?'border-bottom:2px solid var(--deep);margin-bottom:-1px':'');
+  document.getElementById('authHeading').textContent=isSignup?'Crea tu cuenta':'Inicia sesión en tu cuenta';
+  document.getElementById('authSub').textContent=isSignup?'Únete a la comunidad legal de Panamá.':'Bienvenido de vuelta — accede a tu dashboard.';
+  document.getElementById('submitBtn').textContent=isSignup?'Crear cuenta →':'Iniciar sesión →';
+  document.getElementById('nameField').style.display=isSignup?'block':'none';
+  document.getElementById('forgotLink').style.display=isSignup?'none':'inline';
+  syncIdoneidad();
+}
+function setRole(r){
+  authRole=r;
+  const isLawyer=r==='lawyer';
+  document.getElementById('roleClient').style.cssText='padding:10px;border:none;border-radius:5px;background:'+(isLawyer?'transparent':'var(--white)')+';color:'+(isLawyer?'var(--text-mid)':'var(--deep)')+';font-size:13px;font-weight:'+(isLawyer?'400':'500')+';cursor:pointer;font-family:inherit;'+(isLawyer?'':'box-shadow:0 1px 3px rgba(28,46,69,.08)');
+  document.getElementById('roleLawyer').style.cssText='padding:10px;border:none;border-radius:5px;background:'+(isLawyer?'var(--white)':'transparent')+';color:'+(isLawyer?'var(--deep)':'var(--text-mid)')+';font-size:13px;font-weight:'+(isLawyer?'500':'400')+';cursor:pointer;font-family:inherit;'+(isLawyer?'box-shadow:0 1px 3px rgba(28,46,69,.08)':'');
+  syncIdoneidad();
+}
+function syncIdoneidad(){
+  document.getElementById('idoneidadField').style.display=(authRole==='lawyer'&&authMode==='signup')?'block':'none';
+}
+function syncAuthUI(){
+  setAuthMode(authMode);
+  setRole(authRole);
+}
+function submitAuth(){
+  const email=document.getElementById('inputEmail').value||(authRole==='lawyer'?'valentina@herrera.legal':'carlos@email.com');
+  const name=document.getElementById('inputName').value||(authRole==='lawyer'?'Dra. Valentina Herrera':'Carlos M.');
+  const session={
+    email,name,role:authRole,
+    avatar:authRole==='lawyer'?'https://i.pravatar.cc/80?img=47':'https://i.pravatar.cc/80?img=11',
+    aiPro:authRole==='lawyer',
+    plan:authRole==='lawyer'?'AI Pro':'Cliente gratuito'
+  };
+  setSession(session);
+  showPage('dashboard',document.querySelectorAll('.ps-btn')[6]);
+}
+function logout(){
+  clearSession();
+  showPage('home',document.querySelectorAll('.ps-btn')[0]);
+}
+function toggleDashRole(){
+  const s=getSession()||{role:'client'};
+  const newRole=s.role==='client'?'lawyer':'client';
+  setSession({
+    name:newRole==='lawyer'?'Dra. Valentina Herrera':'Carlos M.',
+    email:newRole==='lawyer'?'valentina@herrera.legal':'carlos@email.com',
+    avatar:newRole==='lawyer'?'https://i.pravatar.cc/80?img=47':'https://i.pravatar.cc/80?img=11',
+    role:newRole,aiPro:newRole==='lawyer',plan:newRole==='lawyer'?'AI Pro':'Cliente gratuito'
+  });
+  renderDashboard();
+}
+
+/* ── Dashboard ── */
+function renderDashboard(){
+  const s=getSession();
+  if(!s){
+    document.getElementById('dashContent').innerHTML=`<div class="card" style="padding:40px;text-align:center"><div class="serif" style="font-size:22px;color:var(--text-dark);margin-bottom:8px">No has iniciado sesión</div><p style="font-size:13px;color:var(--text-mid);margin-bottom:20px">Inicia sesión para ver tu dashboard personalizado.</p><button class="btn btn-primary" onclick="showPage('login',document.querySelectorAll('.ps-btn')[5])">Iniciar sesión →</button></div>`;
+    document.getElementById('dashSidebar').innerHTML='';
+    return;
+  }
+  // Update header
+  document.getElementById('dashName').textContent=s.name;
+  document.getElementById('dashEmail').textContent=s.email;
+  document.getElementById('dashAvatar').src=s.avatar;
+  document.getElementById('dashRoleChip').textContent=s.role==='lawyer'?'Abogado · '+s.plan:'Cliente';
+  document.getElementById('dashRoleChip').style.background=s.role==='lawyer'?'var(--lavender-pale)':'var(--blue-grey-pale)';
+  document.getElementById('dashRoleChip').style.color=s.role==='lawyer'?'var(--lavender-dark)':'var(--deep)';
+  document.getElementById('dashGreeting').textContent='Hola, '+s.name.split(' ')[0]+(s.name.includes('Dra.')||s.name.includes('Dr.')?'':'')+' 👋';
+  document.getElementById('dashSubtitle').textContent=s.role==='lawyer'?'Aquí está tu agenda y métricas de hoy.':'Esto es lo que pasa con tus consultas hoy.';
+  document.getElementById('dashCta').textContent=s.role==='lawyer'?'+ Bloquear horario':'+ Nueva consulta';
+  document.getElementById('dashUpsell').style.display=s.aiPro?'none':'block';
+
+  // Sidebar
+  const navItems=s.role==='lawyer'
+    ?[['Inicio','active'],['Agenda',''],['Mis clientes',''],['Cobros','badge:3'],['Draft Assistant','ai'],['Estadísticas',''],['Mi perfil público',''],['Configuración','']]
+    :[['Inicio','active'],['Mis consultas','badge:1'],['Mis abogados',''],['Pagos',''],['Documentos',''],['Configuración','']];
+  document.getElementById('dashSidebar').innerHTML=navItems.map(([label,state])=>{
+    const isActive=state==='active';
+    const isAi=state==='ai';
+    const badge=state.startsWith('badge:')?`<span style="margin-left:auto;background:var(--terra);color:var(--terra-dark);font-size:10px;padding:1px 7px;border-radius:var(--radius-pill);font-weight:500">${state.split(':')[1]}</span>`:'';
+    return `<button style="display:flex;align-items:center;gap:9px;padding:9px 12px;border:none;background:${isActive?'var(--blue-grey-pale)':'transparent'};color:${isActive?'var(--deep)':isAi?'var(--lavender-dark)':'var(--text-mid)'};font-size:13px;font-weight:${isActive?'500':'400'};border-radius:var(--radius-sm);cursor:pointer;font-family:inherit;text-align:left">${isAi?'<span style=\"color:var(--lavender-dark)\">✦</span>':''}${label}${badge}</button>`;
+  }).join('');
+
+  // Main content
+  document.getElementById('dashContent').innerHTML=s.role==='lawyer'?renderLawyerDash(s):renderClientDash(s);
+}
+
+function renderClientDash(s){
+  return `
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px">
+    <!-- Próxima consulta -->
+    <div class="card" style="padding:24px;border-left:4px solid var(--sage)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+        <div>
+          <div class="overline" style="color:var(--sage-dark);margin-bottom:6px">Próxima consulta</div>
+          <div class="serif" style="font-size:24px;color:var(--text-dark);font-weight:400;margin-bottom:4px">Mañana · 10:00 AM</div>
+          <div style="font-size:13px;color:var(--text-mid)">En 17 horas 32 minutos</div>
+        </div>
+        <span style="background:var(--sage-pale);color:var(--sage-dark);padding:4px 10px;border-radius:var(--radius-pill);font-size:11px;font-weight:500">Confirmada</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg-card);border-radius:var(--radius-sm);margin-bottom:14px">
+        <img src="https://i.pravatar.cc/80?img=47" class="avatar" style="width:48px;height:48px" alt="">
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:500;color:var(--text-dark)">Dra. Valentina Herrera</div>
+          <div style="font-size:12px;color:var(--text-mid)">Consulta inicial · Corporativo · 60 min · $120 pagado</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary btn-sm" style="flex:1">🎥 Unirse a videollamada</button>
+        <button class="btn btn-outline btn-sm">Reprogramar</button>
+        <button class="btn btn-outline btn-sm">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Gastos del mes -->
+    <div class="card" style="padding:24px">
+      <div class="overline" style="color:var(--terra-dark);margin-bottom:8px">Gastos del mes</div>
+      <div class="serif" style="font-size:30px;color:var(--text-dark);font-weight:400;margin-bottom:4px">$370</div>
+      <div style="font-size:11px;color:var(--text-light);margin-bottom:18px">3 consultas · mayo 2026</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-mid)">Consultas</span><span style="color:var(--text-dark);font-weight:500">$280</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-mid)">Revisión contratos</span><span style="color:var(--text-dark);font-weight:500">$90</span></div>
+        <div style="display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid var(--rule)"><span style="color:var(--text-mid)">Próximo pago</span><span style="color:var(--blue-grey-mid);font-weight:500">$120 · 26 may</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <!-- Mis abogados -->
+    <div class="card" style="padding:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="overline" style="color:var(--blue-grey-mid)">Mis abogados</div>
+        <span style="font-size:11px;color:var(--blue-grey-mid);cursor:pointer">Ver todos →</span>
+      </div>
+      ${[
+        {name:'Dra. Valentina Herrera',spec:'Corporativo',img:'https://i.pravatar.cc/40?img=47',consults:3},
+        {name:'Dr. Andrés Villarreal',spec:'Laboral',img:'https://i.pravatar.cc/40?img=33',consults:1},
+        {name:'Dra. Mónica Castillo',spec:'Familia',img:'https://i.pravatar.cc/40?img=44',consults:2},
+      ].map(l=>`<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule)"><img src="${l.img}" class="avatar" style="width:36px;height:36px"><div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--text-dark)">${l.name}</div><div style="font-size:11px;color:var(--text-light)">${l.spec} · ${l.consults} consulta${l.consults>1?'s':''}</div></div><button class="btn btn-outline btn-sm" style="font-size:11px">Mensaje</button></div>`).join('')}
+    </div>
+
+    <!-- Documentos -->
+    <div class="card" style="padding:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="overline" style="color:var(--terra-dark)">Documentos compartidos</div>
+        <span style="font-size:11px;color:var(--blue-grey-mid);cursor:pointer">Ver todos →</span>
+      </div>
+      ${[
+        {name:'Contrato de servicios — borrador v2.pdf',date:'Hoy',from:'Dra. Herrera'},
+        {name:'Acta constitutiva.pdf',date:'12 may',from:'Dra. Herrera'},
+        {name:'Análisis preliminar.docx',date:'8 may',from:'Dr. Villarreal'},
+      ].map(d=>`<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule)"><div style="width:36px;height:36px;background:var(--terra-pale);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--terra-dark);font-size:14px">📄</div><div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--text-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px">${d.name}</div><div style="font-size:11px;color:var(--text-light)">${d.from} · ${d.date}</div></div></div>`).join('')}
+    </div>
+  </div>
+
+  <!-- Recomendaciones -->
+  <div class="card" style="padding:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div><div class="overline" style="color:var(--lavender-dark);margin-bottom:4px">✦ Recomendado para ti</div><div style="font-size:14px;font-weight:500;color:var(--text-dark)">Basado en tus consultas recientes en derecho corporativo</div></div>
+      <span style="font-size:11px;color:var(--blue-grey-mid);cursor:pointer">Refrescar →</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      ${[
+        {name:'Dra. Isabella Morales',spec:'Tributario y Financiero',img:'https://i.pravatar.cc/60?img=49',rating:5.0,price:140},
+        {name:'Dr. Samuel Núñez',spec:'Inmobiliario',img:'https://i.pravatar.cc/60?img=68',rating:4.3,price:100},
+        {name:'Dr. Rodrigo Espinosa',spec:'Penal corporativo',img:'https://i.pravatar.cc/60?img=12',rating:4.7,price:150},
+      ].map(l=>`<div style="padding:14px;background:var(--bg-card);border-radius:var(--radius-sm);display:flex;gap:10px;align-items:center"><img src="${l.img}" class="avatar" style="width:40px;height:40px"><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;color:var(--text-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.name}</div><div style="font-size:11px;color:var(--text-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.spec}</div><div style="font-size:11px;color:var(--terra-dark);margin-top:2px">★ ${l.rating} · $${l.price}</div></div></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderLawyerDash(s){
+  return `
+  <!-- Top KPIs -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+    ${[
+      {label:'Consultas hoy',value:'4',sub:'Próxima en 32 min',color:'blue-grey'},
+      {label:'Ingresos del mes',value:'$2,840',sub:'+18% vs. abril',color:'sage'},
+      {label:'Solicitudes nuevas',value:'7',sub:'3 sin responder',color:'terra'},
+      {label:'Calificación',value:'4.9 ★',sub:'87 reseñas',color:'lavender'},
+    ].map(k=>`<div class="card" style="padding:18px;border-top:3px solid var(--${k.color})"><div class="overline" style="color:var(--${k.color}-dark);margin-bottom:6px">${k.label}</div><div class="serif" style="font-size:26px;color:var(--text-dark);font-weight:400">${k.value}</div><div style="font-size:11px;color:var(--text-light);margin-top:2px">${k.sub}</div></div>`).join('')}
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px">
+    <!-- Agenda hoy -->
+    <div class="card" style="padding:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div><div class="overline" style="color:var(--blue-grey-mid);margin-bottom:4px">Agenda · Hoy</div><div style="font-size:14px;font-weight:500;color:var(--text-dark)">Lunes 25 de mayo, 2026</div></div>
+        <button class="btn btn-outline btn-sm">Ver semana →</button>
+      </div>
+      ${[
+        {time:'9:00',name:'Carlos M.',type:'Consulta inicial · Corporativo',status:'active'},
+        {time:'10:30',name:'Ana Pérez',type:'Revisión de contrato',status:'next'},
+        {time:'14:00',name:'Empresa Tecnova S.A.',type:'Asesoría mensual',status:''},
+        {time:'16:30',name:'Roberto Quintero',type:'Consulta inicial · M&A',status:''},
+      ].map((c,i)=>`<div style="display:grid;grid-template-columns:60px 1fr auto;gap:14px;padding:12px 0;${i<3?'border-bottom:1px solid var(--rule);':''}align-items:center">
+        <div style="font-family:'Instrument Serif',serif;font-size:18px;color:${c.status==='active'?'var(--sage-dark)':'var(--text-mid)'}">${c.time}</div>
+        <div><div style="font-size:13px;font-weight:500;color:var(--text-dark)">${c.name}</div><div style="font-size:11px;color:var(--text-light)">${c.type}</div></div>
+        ${c.status==='active'?'<button class="btn btn-primary btn-sm" style="font-size:11px">🎥 En vivo</button>':c.status==='next'?'<span style="font-size:11px;color:var(--terra-dark);background:var(--terra-pale);padding:3px 8px;border-radius:var(--radius-pill);font-weight:500">Próxima</span>':'<span style="font-size:11px;color:var(--text-light)">Programada</span>'}
+      </div>`).join('')}
+    </div>
+
+    <!-- Solicitudes pendientes -->
+    <div class="card" style="padding:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="overline" style="color:var(--terra-dark)">Solicitudes pendientes</div>
+        <span style="background:var(--terra);color:var(--terra-dark);font-size:10px;padding:2px 7px;border-radius:var(--radius-pill);font-weight:500">3 sin responder</span>
+      </div>
+      ${[
+        {name:'María González',msg:'Necesito asesoría para registrar mi startup',time:'12 min'},
+        {name:'Constructora Pacífico',msg:'Revisión de contrato laboral colectivo',time:'2 h'},
+        {name:'Pedro Saavedra',msg:'Caso de fusión empresarial',time:'5 h'},
+      ].map((r,i)=>`<div style="padding:12px 0;${i<2?'border-bottom:1px solid var(--rule);':''}">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:500;color:var(--text-dark)">${r.name}</span><span style="font-size:11px;color:var(--text-light)">${r.time}</span></div>
+        <div style="font-size:12px;color:var(--text-mid);margin-bottom:8px;line-height:1.45">${r.msg}</div>
+        <div style="display:flex;gap:6px"><button class="btn btn-primary btn-sm" style="padding:5px 10px;font-size:11px">Aceptar</button><button class="btn btn-outline btn-sm" style="padding:5px 10px;font-size:11px">Responder</button></div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px">
+    <!-- AI Draft Assistant -->
+    <div class="card" style="padding:24px;background:linear-gradient(135deg,var(--lavender-pale) 0%,var(--white) 70%);border:1.5px solid var(--lavender)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px;color:var(--lavender-dark)">✦</span><div class="overline" style="color:var(--lavender-dark)">AI Draft Assistant · Pro</div></div>
+          <div class="serif" style="font-size:18px;color:var(--text-dark);font-weight:400">Genera tu próximo borrador con IA</div>
+        </div>
+        <span class="badge badge-ai">AI Pro</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        ${['Contrato de servicios','Acta constitutiva','Carta poder','Demanda laboral','Convenio de confidencialidad','Reglamento interno'].map(t=>`<button style="padding:10px 12px;background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-sm);text-align:left;font-size:12px;color:var(--text-dark);cursor:pointer;font-family:inherit">${t}</button>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px"><input placeholder="Describe el documento que necesitas..." style="flex:1;padding:10px 14px;border:1px solid var(--rule);border-radius:var(--radius-sm);font-size:13px;font-family:inherit;outline:none"><button class="btn btn-primary btn-sm">Generar →</button></div>
+    </div>
+
+    <!-- Próximo cobro -->
+    <div class="card" style="padding:24px">
+      <div class="overline" style="color:var(--sage-dark);margin-bottom:8px">Próximo cobro</div>
+      <div class="serif" style="font-size:30px;color:var(--text-dark);font-weight:400;margin-bottom:4px">$1,420</div>
+      <div style="font-size:11px;color:var(--text-light);margin-bottom:16px">Depósito directo · 1 jun 2026</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-mid)">Consultas (8)</span><span style="color:var(--text-dark);font-weight:500">$960</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-mid)">Retainers (1)</span><span style="color:var(--text-dark);font-weight:500">$800</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--text-mid)">Comisión LexConnect</span><span style="color:var(--text-light)">-$340</span></div>
+      </div>
+      <button class="btn btn-outline btn-sm" style="width:100%">Ver detalle de cobros →</button>
+    </div>
+  </div>`;
+}
+
+function dashCtaAction(){
+  const s=getSession();
+  if(!s)return showPage('login',document.querySelectorAll('.ps-btn')[5]);
+  if(s.role==='lawyer')alert('Próximamente: bloquear horario en agenda');
+  else showPage('search',document.querySelectorAll('.ps-btn')[1]);
 }
 
 function selectSlot(el){
